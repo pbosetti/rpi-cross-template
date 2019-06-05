@@ -82,11 +82,11 @@ int main(int argc, char const *argv[]) {
   userdata_t ud = {NULL, NULL};
 
   if (argc != 2) {
-    fprintf(stderr, "Need exactly one argument: the path to the configuration file\n");
+    fprintf(stderr, "FATAL: Need exactly one argument: the path to the configuration file\n");
     return EXIT_FAILURE;
   }
   if ((ud.cfg = new_config(argv[1], CFG_SUB)) == NULL) {
-    fprintf(stderr, "Could not load config file\n");
+    fprintf(stderr, "FATAL: Could not load config file\n");
     return EXIT_FAILURE;
   }
   
@@ -107,7 +107,7 @@ int main(int argc, char const *argv[]) {
   uri = mongoc_uri_new_with_error(ud.cfg->mongo_uri, &error);
   if (!uri) {
     fprintf(stderr,
-            "failed to parse URI: %s\n"
+            "FATAL: failed to parse URI: %s\n"
             "error message:       %s\n",
             ud.cfg->mongo_uri, error.message);
     return EXIT_FAILURE;
@@ -116,6 +116,7 @@ int main(int argc, char const *argv[]) {
   // Create a new client instance
   client = mongoc_client_new_from_uri(uri);
   if (!client) {
+    fprintf(stderr, "FATAL: Could not create MongoDB client\n");
     return EXIT_FAILURE;
   }
   printf("done\n");
@@ -142,7 +143,7 @@ int main(int argc, char const *argv[]) {
   // are able to access mongo collection and config struct
   m = mosquitto_new(argv[0], false, &ud);
   if (!m) {
-    perror("mosquitto_new()");
+    perror("FATAL: mosquitto_new()");
     exit(EXIT_FAILURE);
   }
   assert(m != NULL);
