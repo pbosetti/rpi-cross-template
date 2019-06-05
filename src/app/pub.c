@@ -139,7 +139,8 @@ int main(int argc, char const *argv[]) {
     bson_destroy(bdoc);
 
     // throttle this loop
-    wait_next(100E6);
+    if (ud.cfg->pub_rate > 0)
+      wait_next(ud.cfg->pub_rate);
   }
 
   printf("> Clean exit\n");

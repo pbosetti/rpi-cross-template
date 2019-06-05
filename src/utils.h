@@ -24,6 +24,8 @@ typedef struct {
   const char *plugin_path;
   // Cache
   const char *cache_path;
+  // pub rate (in microseconds)
+  uint32_t pub_rate;
 } config_t;
 
 typedef enum {

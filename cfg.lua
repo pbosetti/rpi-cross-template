@@ -14,7 +14,8 @@ config_pub = {
   broker_port = 1883,
   mqtt_topic = "test/log",
   plugin_path = "install/bin/dummy.plugin",
-  cache_path = "cache.dat"
+  cache_path = "cache.dat",
+  pub_rate = 10E6
 }
 
 -- Derived entries

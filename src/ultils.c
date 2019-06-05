@@ -112,6 +112,13 @@ static int load_config_pub(lua_State *lua, config_t *cfg, char const *config_fil
   }
   cfg->cache_path = luaL_checkstring(lua, -1);
   lua_pop(lua, 1);
+
+  if (lua_getfield(lua, -1, "pub_rate") != LUA_TNUMBER) {
+    fprintf(stderr, "LUA: missing config_sub.pub_rate\n");
+    return EXIT_FAILURE;
+  }
+  cfg->pub_rate = luaL_checkinteger(lua, -1);
+  lua_pop(lua, 1);
   
   lua_pop(lua, 1); // config_table
 
